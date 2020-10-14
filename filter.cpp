@@ -2,9 +2,8 @@
 #include <iostream>
 #include <math.h>
 
-Filter::Filter(int (*x)[SIZE], double factor, double bias) {
+Filter::Filter(int (*x)[SIZE], double factor) {
   this->factor = factor;
-  this->bias = bias;
   for (int i = 0; i < SIZE; i++) {
     for (int j = 0; j < SIZE; j++) {
       kernel[i][j] = x[i][j];
@@ -58,6 +57,6 @@ int Filter::get_new_pixel_value(int width, int channels, unsigned char * px) {
     *(px - width * channels - channels)*kernel[0][0] + *(px - width * channels)*kernel[0][1] + *(px - width * channels + channels)*kernel[0][2] +
     *(px - channels)*kernel[1][0]                    + *(px)*kernel[1][1]                      + *(px + channels)*kernel[1][2] +
     *(px + width * channels - channels)*kernel[2][0] + *(px + width * channels)*kernel[2][1] + *(px + width * channels + channels)*kernel[2][2]
-  );
+  )/factor;
 }
 

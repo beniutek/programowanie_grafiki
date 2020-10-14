@@ -30,7 +30,7 @@ Image::Image(Image *image) {
 }
 
 Image::~Image() {
-  stbi_image_free(data);
+  // stbi_image_free(data);
 }
 
 

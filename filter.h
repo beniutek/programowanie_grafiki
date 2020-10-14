@@ -6,13 +6,12 @@ class Filter {
   public:
     static const int SIZE = 3;
 
-    Filter (int (*)[SIZE], double = 1.0, double = 0.0);
+    Filter (int (*)[SIZE], double = 1.0);
     Image apply_to(Image);
     void show();
   private:
     int kernel[SIZE][SIZE];
     double factor;
-    double bias;
     Image apply_to_gray(Image);
     int get_new_pixel_value(int, int, unsigned char *);
 };
