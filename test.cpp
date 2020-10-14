@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
   }
 
   filter->show();
-  Image sharp_img = filter->apply_to(gray_img);
+  Image sharp_img = filter->apply_to(img);
   sharp_img.save("filtered.jpg");
   std::cout << "END..." << std::endl;
 };

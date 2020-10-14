@@ -10,7 +10,7 @@ Image::Image(std::string path, int req_comp) {
   data = stbi_load(path.c_str(), &width, &height, &channels, req_comp);
 
   if (this->data == NULL) {
-    std::cout << "error loading the image, data is null" << std::endl;
+    std::cout << "error loading the image "<< path << ", data is null" << std::endl;
     exit(1);
   }
 };
