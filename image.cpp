@@ -29,6 +29,10 @@ Image::Image(Image *image) {
   data = image->get_data();
 }
 
+Image::~Image() {
+  stbi_image_free(data);
+}
+
 
 int Image::get_height() { return height; };
 int Image::get_width() { return width; };
@@ -49,19 +53,13 @@ Image *Image::to_gray() {
     exit(1);
   }
 
-  // for (unsigned char *p = data, *pg = gray_image; p != data + size(); p += channels, pg += gray_channels) {
-  //     *pg = (uint8_t)((*p + *(p + 1) + *(p + 2))/3.0);
-  //     if(channels == 4) {
-  //         *(pg + 1) = *(p + 3);
-  //     }
-  // }
+  for (unsigned char *p = data, *pg = gray_image; p != data + size(); p += channels, pg += gray_channels) {
+      *pg = (uint8_t)((*p + *(p + 1) + *(p + 2))/3.0);
 
-  // unsigned char *pg = gray_image;
-  // for (int i = 0; i < width; i++) {
-  //   for (int j = 0; j < height; j++) {
-  //     (pg + i)[j] = (data + i)[j];
-  //   }
-  // }
+      if(channels == 4) {
+          *(pg + 1) = *(p + 3);
+      }
+  }
 
   return new Image(gray_image, width, height, gray_channels);
 }

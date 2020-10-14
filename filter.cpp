@@ -28,6 +28,7 @@ Image Filter::apply_to(Image image) {
     return apply_to_gray(image);
   } else {
     std::cout << "not wokring yet";
+    return apply_to_gray(image);
   }
 }
 
@@ -39,26 +40,24 @@ Image Filter::apply_to_gray(Image image) {
   int offset = (int) ceil(SIZE / 2.0);
   unsigned char *tmp = (unsigned char*) malloc(image.size());
   unsigned char *data = image.get_data();
-  // for (
-  //   unsigned char *p = image.get_data(), *pg = tmp;
-  //   p != image.get_data() + image.size();
-  //   p += channels, pg += channels
-  // ) {
-  //   // *pg = (*p + *(p + 1) + *(p + 2)) / 3.0;
-  // }
 
-  for (int i = 0; i < width; i++) {
-    for (int j = 0; j < height; j++) {
-      *tmp = (data + i)[j];
-    }
+  for (
+    unsigned char *px = image.get_data(), *pxg = tmp;
+    px != image.get_data() + image.size();
+    px += channels, pxg += channels
+  ) {
+    *pxg = get_new_pixel_value(width, channels, px);
   }
+
+
   return new Image(tmp, width, height, channels);
 }
 
-// unsigned char * Filter::apply_matrix_to_pixel(unsigned char * pixel, unsigned char * data) {
-//     for (int i; i < SIZE; i++) {
-//       for (int j; j < SIZE; j++) {
-//         kernel[i][j]
-//       }
-//     }
-// }
+int Filter::get_new_pixel_value(int width, int channels, unsigned char * px) {
+  return (
+    *(px - width * channels - channels)*kernel[0][0] + *(px - width * channels)*kernel[0][1] + *(px - width * channels + channels)*kernel[0][2] +
+    *(px - channels)*kernel[1][0]                    + *(px)*kernel[1][1]                      + *(px + channels)*kernel[1][2] +
+    *(px + width * channels - channels)*kernel[2][0] + *(px + width * channels)*kernel[2][1] + *(px + width * channels + channels)*kernel[2][2]
+  );
+}
+

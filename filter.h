@@ -14,5 +14,5 @@ class Filter {
     double factor;
     double bias;
     Image apply_to_gray(Image);
-    unsigned char * apply_matrix_to_pixel(unsigned char *, unsigned char *);
+    int get_new_pixel_value(int, int, unsigned char *);
 };

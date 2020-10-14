@@ -10,6 +10,7 @@ class Image {
     Image (std::string, int = 0);
     Image (unsigned char *, int, int, int);
     Image (Image *);
+    ~Image();
     size_t size();
     Image *to_gray();
     int *get_region(int, int = 3, int = 3);
