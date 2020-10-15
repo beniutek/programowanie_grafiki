@@ -4,6 +4,11 @@
 #include "filter.h"
 
 int main(int argc, char* argv[]) {
+  if (argc < 3) {
+    std::cout << "Incorrect attributes" << std::endl;
+    return 1;
+  }
+
   std::string filename = (std::string)argv[1] + ".jpg";
   std::string filtername = (std::string)argv[2];
   bool operate_on_gray = !!argv[3];
