@@ -23,31 +23,28 @@ void Filter::show() {
 }
 
 Image Filter::apply_to(Image image) {
-  if (image.get_channel() < 3) {
-    return apply_to_gray(image);
-  } else {
-    std::cout << "not wokring yet";
-    return apply_to_gray(image);
-  }
-}
-
-Image Filter::apply_to_gray(Image image) {
   int width = image.get_width();
   int height = image.get_height();
   int channels = image.get_channel();
-  int tmp_channels = channels;
-  int offset = (int) ceil(SIZE / 2.0);
-  unsigned char *tmp = (unsigned char*) malloc(image.size());
-  unsigned char *data = image.get_data();
+  int size = image.size();
+  unsigned char *tmp = (unsigned char*) malloc(size);
+  unsigned char *original = image.get_data();
 
   for (
-    unsigned char *px = image.get_data(), *pxg = tmp;
-    px != image.get_data() + image.size();
-    px += channels, pxg += channels
+    unsigned char *px = original, *px_tmp = tmp;
+    px != original + size;
+    px += channels, px_tmp += channels
   ) {
-    *pxg = get_new_pixel_value(width, channels, px);
-  }
 
+    *px_tmp = get_new_pixel_value(width, channels, px);
+    if (channels == 3) {
+      *(px_tmp + 1) = get_new_pixel_value(width, channels, px + 1);
+      *(px_tmp + 2) = get_new_pixel_value(width, channels, px + 2);
+    }
+    if (channels == 4) {
+      *(px_tmp + 3) = get_new_pixel_value(width, channels, px + 3);
+    }
+  }
 
   return new Image(tmp, width, height, channels);
 }
@@ -59,4 +56,5 @@ int Filter::get_new_pixel_value(int width, int channels, unsigned char * px) {
     *(px + width * channels - channels)*kernel[2][0] + *(px + width * channels)*kernel[2][1] + *(px + width * channels + channels)*kernel[2][2]
   )/factor;
 }
+
 
