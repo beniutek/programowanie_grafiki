@@ -35,14 +35,13 @@ Image Filter::apply_to(Image image) {
     px != original + size;
     px += channels, px_tmp += channels
   ) {
-
-    *px_tmp = get_new_pixel_value(width, channels, px);
+    *px_tmp = normalize(get_new_pixel_value(width, channels, px));
     if (channels == 3) {
-      *(px_tmp + 1) = get_new_pixel_value(width, channels, px + 1);
-      *(px_tmp + 2) = get_new_pixel_value(width, channels, px + 2);
+      *(px_tmp + 1) = normalize(get_new_pixel_value(width, channels, px + 1));
+      *(px_tmp + 2) = normalize(get_new_pixel_value(width, channels, px + 2));
     }
     if (channels == 4) {
-      *(px_tmp + 3) = get_new_pixel_value(width, channels, px + 3);
+      *(px_tmp + 3) = normalize(get_new_pixel_value(width, channels, px + 3));
     }
   }
 
@@ -55,6 +54,20 @@ int Filter::get_new_pixel_value(int width, int channels, unsigned char * px) {
     *(px - channels)*kernel[1][0]                    + *(px)*kernel[1][1]                      + *(px + channels)*kernel[1][2] +
     *(px + width * channels - channels)*kernel[2][0] + *(px + width * channels)*kernel[2][1] + *(px + width * channels + channels)*kernel[2][2]
   )/factor;
+}
+
+bool out_of_RGB_bounds(int px) {
+  return px > 255 || px < 0;
+}
+
+int Filter::normalize(int px) {
+  if (px < 0) {
+    return 0;
+  } else if (px > 255) {
+    return 255;
+  } else {
+    return px;
+  }
 }
 
 

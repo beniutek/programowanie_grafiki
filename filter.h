@@ -14,4 +14,5 @@ class Filter {
     double factor;
     Image apply_to_gray(Image);
     int get_new_pixel_value(int, int, unsigned char *);
+    int normalize(int);
 };
