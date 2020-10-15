@@ -1,6 +1,5 @@
-## to run:
+## to build:
 1. g++ test.cpp image.cpp filter.cpp
-2. ./a.out originalimagename filtername gray
 
 ## available filters
 1. sharp
@@ -10,5 +9,10 @@
 ## example
 
 `./a.out imagename sharp`
+
 `./a.out imagename sharp gray`
+
+## other
+
+works only with `jpg` files
 
