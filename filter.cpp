@@ -51,13 +51,9 @@ Image Filter::apply_to(Image image) {
 int Filter::get_new_pixel_value(int width, int channels, unsigned char * px) {
   return (
     *(px - width * channels - channels)*kernel[0][0] + *(px - width * channels)*kernel[0][1] + *(px - width * channels + channels)*kernel[0][2] +
-    *(px - channels)*kernel[1][0]                    + *(px)*kernel[1][1]                      + *(px + channels)*kernel[1][2] +
+    *(px - channels)*kernel[1][0]                    + *(px)*kernel[1][1]                    + *(px + channels)*kernel[1][2] +
     *(px + width * channels - channels)*kernel[2][0] + *(px + width * channels)*kernel[2][1] + *(px + width * channels + channels)*kernel[2][2]
   )/factor;
-}
-
-bool out_of_RGB_bounds(int px) {
-  return px > 255 || px < 0;
 }
 
 int Filter::normalize(int px) {
