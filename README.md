@@ -1,5 +1,5 @@
 ## to build:
-1. g++ test.cpp image.cpp filter.cpp
+1. g++ main.cpp image.cpp filter.cpp
 
 ## available filters
 1. sharp
